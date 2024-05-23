@@ -14,13 +14,23 @@ const styles = StyleSheet.create({
       fontSize: 24,
       fontWeight: 'bold',
   },
+  formContainer: {
+    alignItems: 'left',
+    width: '100%',
+    marginLeft: 82
+  },
+  label: {
+    textAlign: 'left',
+  },
   input: {
       width: '80%',
-      height: 40,
       marginVertical: 10,
       borderWidth: 1,
-      borderColor: '#ccc',
+      borderColor: '#766882',
       padding: 10,
+      borderRadius: 5,
+      paddingVertical: 15,
+      paddingHorizontal: 10
   },
   rememberMeContainer: {
       flexDirection: 'row',
@@ -31,8 +41,9 @@ const styles = StyleSheet.create({
       marginLeft: 10,
   },
   button: {
-      backgroundColor: '#6200EE',
-      padding: 10,
+      backgroundColor: '#63318a',
+      paddingVertical: 12,
+      paddingHorizontal: 24,
       width: '80%',
       alignItems: 'center',
       borderRadius: 5,
@@ -43,7 +54,7 @@ const styles = StyleSheet.create({
       fontSize: 16,
   },
   forgotPasswordText: {
-      color: '#6200EE',
+      color: '#766882',
       marginTop: 20,
   },
 });
