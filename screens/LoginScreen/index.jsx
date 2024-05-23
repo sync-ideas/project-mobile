@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Text,
   View,
@@ -8,7 +8,7 @@ import {
   Image,
 } from "react-native";
 import Checkbox from 'expo-checkbox';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from "axios";
 import { validateEmail } from "../../helpers/validateEmail";
 import { validatePassword } from "../../helpers/validatePassword";
@@ -19,9 +19,43 @@ const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
-  const [toggleCheckBox, setToggleCheckBox] = useState(false)
+  const [toggleCheckBox, setToggleCheckBox] = useState(false);
 
-  console.info('navigation - login:', navigation);
+  const loadCredentials = async () => {
+    try {
+      const savedEmail = await AsyncStorage.getItem('email');
+      const savedPassword = await AsyncStorage.getItem('password');
+      const savedRememberMe = await AsyncStorage.getItem('rememberMe');
+      
+      if (savedEmail && savedPassword && savedRememberMe === 'true') {
+        setEmail(savedEmail);
+        setPassword(savedPassword);
+        setRememberMe(true);
+      }
+    } catch (error) {
+      console.error("Falló al cargar las credenciales", error);
+    }
+  };
+
+  const saveCredentials = async (email, password) => {
+    try {
+      await AsyncStorage.setItem('email', email);
+      await AsyncStorage.setItem('password', password);
+      await AsyncStorage.setItem('rememberMe', 'true');
+    } catch (error) {
+      console.error("Falló al guardar las credenciales", error);
+    }
+  };
+
+  const clearCredentials = async () => {
+    try {
+      await AsyncStorage.removeItem('email');
+      await AsyncStorage.removeItem('password');
+      await AsyncStorage.removeItem('rememberMe');
+    } catch (error) {
+      console.error("Falló al limpiar las credenciales", error);
+    }
+  };
 
   const handleLogin = async () => {
     console.info('email - login:', email);
@@ -45,14 +79,22 @@ const LoginScreen = ({ navigation }) => {
         }
       );
 
-      console.info('response - login:', response);
       if(response.status === 200) {
+        if (rememberMe) {
+          saveCredentials(email, password);
+        } else {
+          clearCredentials();
+        }
         navigation.navigate('Home');
       }
     } catch (error) {
       console.info("Error Login: ", error);
     }
   };
+
+  useEffect(() => {
+    loadCredentials();
+  }, []);
 
   return (
     <View style={styles.container}>
