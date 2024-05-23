@@ -34,6 +34,8 @@ const styles = StyleSheet.create({
   },
   rememberMeContainer: {
       flexDirection: 'row',
+      width: '80%',
+      justifyContent: 'flex-start',
       alignItems: 'center',
       marginVertical: 10,
   },

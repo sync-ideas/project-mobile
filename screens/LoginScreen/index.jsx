@@ -4,10 +4,10 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  Switch,
   Alert,
   Image,
 } from "react-native";
+import Checkbox from 'expo-checkbox';
 
 import axios from "axios";
 import { validateEmail } from "../../helpers/validateEmail";
@@ -19,6 +19,7 @@ const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  const [toggleCheckBox, setToggleCheckBox] = useState(false)
 
   console.info('navigation - login:', navigation);
 
@@ -84,7 +85,12 @@ const LoginScreen = ({ navigation }) => {
         />
       </View>
       <View style={styles.rememberMeContainer}>
-        <Switch value={rememberMe} onValueChange={setRememberMe} />
+        <Checkbox
+          disabled={false}
+          value={toggleCheckBox}
+          color="#63318a"
+          onValueChange={(newValue) => setToggleCheckBox(newValue)}
+        />
         <Text style={styles.rememberMeText}>Recordarme</Text>
       </View>
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
