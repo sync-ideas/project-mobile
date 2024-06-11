@@ -4,7 +4,6 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  Alert,
   Image,
 } from "react-native";
 import Checkbox from 'expo-checkbox';
@@ -102,6 +101,8 @@ const LoginScreen = ({ navigation }) => {
           password: password,
         }
       );
+
+      console.info('response - handleLogin: ', response);
 
       if(response.status === 200) {
         if (rememberMe) {
