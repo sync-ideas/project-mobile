@@ -7,14 +7,22 @@ import {
   Alert,
   Image,
 } from "react-native";
-import Logo from '../../assets/logo.png'
+import Logo from '../../assets/logo.png';
+import { validateEmail } from "../../helpers/validateEmail";
 import axios from "axios";
 import styles from "./styles";
 
 const ResetPasswordScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState('');
 
   const handleSendResetEmail = async () => {
+    setEmailError('');
+    if (!validateEmail(email)) {
+      setEmailError('Ingresa un correo electrónico válido.');
+      return;
+    }
+
     try {
       const response = await axios.post(
         "https://attendance-control.vercel.app/api/users/forgotpassword",
@@ -22,11 +30,10 @@ const ResetPasswordScreen = ({ navigation }) => {
       );
       if (response.data.result) {
         navigation.navigate("MessageSent");
-      } else {
-        Alert.alert("Error", response.data.message || "No se pudo enviar el email.");
-      }
+      } 
     } catch (error) {
-      Alert.alert("Error", "No se pudo procesar la solicitud.");
+      setEmailError('Este correo electrónico no está registrado.');
+      return;
     }
   };
 
@@ -48,13 +55,16 @@ const ResetPasswordScreen = ({ navigation }) => {
           placeholder="Ingresa tu correo electrónico"
           keyboardType="email-address"
         />
+        {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
       </View>
       <TouchableOpacity style={styles.button} onPress={handleSendResetEmail}>
         <Text style={styles.buttonText}>Recuperar acceso</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-        <Text style={styles.backLoginText}>Volver a Iniciar sesión</Text>
-      </TouchableOpacity>
+      <View style={styles.backInitSessionTextContainer}>
+        <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+          <Text style={styles.backInitSessionText}>{`< Volver a Iniciar sesión`}</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };

@@ -1,23 +1,42 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
+  },
+  logoContainer: {
+    marginBottom: 60,
+  },
+  formContainer: {
+    alignItems: "left",
+    width: "100%",
+    marginLeft: 82,
   },
   button: {
-    backgroundColor: '#6200EE',
-    padding: 10,
-    width: '100%',
-    alignItems: 'center',
+    backgroundColor: "#63318a",
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    width: "80%",
+    alignItems: "center",
     borderRadius: 5,
-    marginTop: 10,
+    marginVertical: 10,
   },
   buttonText: {
-    color: '#fff',
-  }
+    color: "#fff",
+    fontSize: 16,
+  },
+  text: {
+    width: "80%",
+    textAlign: "center",
+    marginBottom: 20,
+  },
+  backToInitsessionContainer: {
+    width: "80%",
+    alignItems: "flex-end",
+  },
 });
 
 export default styles;
