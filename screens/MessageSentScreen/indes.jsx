@@ -1,9 +1,8 @@
-// MessageSentScreen.jsx
 import React from "react";
 import { 
   View, 
   Text, 
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 
 import styles from "./styles";
@@ -11,9 +10,15 @@ import styles from "./styles";
 const MessageSentScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <Text>Hemos enviado un mensaje a tu correo electrónico para que puedas volver a ingresar.</Text>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
-        <Text>Iniciar sesión</Text>
+      <Text>Hemos enviado un código a tu correo electrónico para que puedas volver a ingresar.</Text>
+      <TouchableOpacity 
+        style={styles.button} 
+        onPress={() => navigation.navigate('ChangePassword')}
+      >
+        <Text>Recupera tu contraseña</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+        <Text>{`< Volver a Iniciar sesión`}</Text>
       </TouchableOpacity>
     </View>
   );

@@ -4,8 +4,10 @@ import {
   Text, 
   TextInput, 
   TouchableOpacity, 
-  Alert
+  Alert,
+  Image,
 } from "react-native";
+import Logo from '../../assets/logo.png'
 import axios from "axios";
 import styles from "./styles";
 
@@ -30,19 +32,28 @@ const ResetPasswordScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Correo electrónico</Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={setEmail}
-        value={email}
-        placeholder="Ingresa tu correo electrónico"
-        keyboardType="email-address"
-      />
+      <View style={styles.logoContainer}>
+        <Image
+          source={Logo}
+          height={106}
+          width={106}
+        />
+      </View>
+      <View style={styles.formContainer}> 
+        <Text style={styles.label}>Correo electrónico</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={setEmail}
+          value={email}
+          placeholder="Ingresa tu correo electrónico"
+          keyboardType="email-address"
+        />
+      </View>
       <TouchableOpacity style={styles.button} onPress={handleSendResetEmail}>
         <Text style={styles.buttonText}>Recuperar acceso</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-        <Text style={styles.linkText}>Volver a Iniciar sesión</Text>
+        <Text style={styles.backLoginText}>Volver a Iniciar sesión</Text>
       </TouchableOpacity>
     </View>
   );

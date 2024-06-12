@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
@@ -8,7 +8,7 @@ import ResetPasswordScreen from "./screens/ResetPasswordScreen";
 import MessageSentScreen from "./screens/MessageSentScreen/indes";
 import ChangePasswordScreen from "./screens/ChangePasswordScreen";
 import RecoveryPasswordScreen from "./screens/RecoveryPasswordScreen";
-import SuccessfulChangePasswordScreen from "./screens/SuccessfulPaswordChange";
+import SuccessfulPaswordChangeScreen from "./screens/SuccessfulPaswordChangeScreen";
 
 
 
@@ -62,8 +62,8 @@ export default function App() {
           }}
         />
         <Stack.Screen 
-          name="SuccessfulChangePassword" 
-          component={SuccessfulChangePasswordScreen} 
+          name="SuccessfulPaswordChange" 
+          component={SuccessfulPaswordChangeScreen} 
           options={{
             headerShown: false
           }}

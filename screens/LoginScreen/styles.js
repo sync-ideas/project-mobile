@@ -10,10 +10,6 @@ const styles = StyleSheet.create({
   logoContainer: {
       marginBottom: 20,
   },
-  logoText: {
-      fontSize: 24,
-      fontWeight: 'bold',
-  },
   formContainer: {
     alignItems: 'left',
     width: '100%',

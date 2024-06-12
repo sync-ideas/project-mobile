@@ -8,6 +8,7 @@ import {
   Alert 
 } from "react-native";
 import axios from "axios";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from "./styles";
 
 const RecoveryPasswordScreen = ({ navigation }) => {
@@ -17,6 +18,7 @@ const RecoveryPasswordScreen = ({ navigation }) => {
     try {
       const response = await axios.post("https://attendance-control.vercel.app/api/users/forgotpassword", { email });
       if (response.data.result) {
+        await AsyncStorage.setItem('email', email);
         navigation.navigate('MessageSent');
       } else {
         Alert.alert("Error", response.data.message || "No se pudo enviar el correo.");
@@ -35,7 +37,10 @@ const RecoveryPasswordScreen = ({ navigation }) => {
         value={email}
         placeholder="Ingresa tu correo electrónico"
       />
-      <TouchableOpacity style={styles.button} onPress={handleRecuperarAcceso}>
+      <TouchableOpacity 
+        style={styles.button} 
+        onPress={handleRecuperarAcceso}
+      >
         <Text>Recuperar acceso</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Login')}>

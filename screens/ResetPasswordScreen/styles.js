@@ -2,39 +2,55 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#fff',
   },
-  input: {
+  logoContainer: {
+      marginBottom: 20,
+  },
+  formContainer: {
+    alignItems: 'left',
     width: '100%',
-    marginVertical: 10,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    padding: 10,
-    borderRadius: 5
-  },
-  button: {
-    backgroundColor: '#6200EE',
-    padding: 10,
-    width: '100%',
-    alignItems: 'center',
-    borderRadius: 5,
-    marginTop: 10,
-  },
-  buttonText: {
-    color: '#fff',
-  },
-  linkText: {
-    color: '#6200EE',
-    marginTop: 20,
+    marginLeft: 82
   },
   label: {
-    width: '100%',
     textAlign: 'left',
-    marginBottom: 5,
+  },
+  input: {
+      width: '80%',
+      marginVertical: 10,
+      borderWidth: 1,
+      borderColor: '#766882',
+      padding: 10,
+      borderRadius: 5,
+      paddingVertical: 15,
+      paddingHorizontal: 10
+  },
+  button: {
+      backgroundColor: '#63318a',
+      paddingVertical: 12,
+      paddingHorizontal: 24,
+      width: '80%',
+      alignItems: 'center',
+      borderRadius: 5,
+      marginTop: 10,
+  },
+  buttonText: {
+      color: '#fff',
+      fontSize: 16,
+  },
+  backLoginText: {
+      color: '#766882',
+      marginTop: 20,
+  },
+  errorText: {
+    color: '#DE1111',
+    textAlign: 'center',
+    width: '80%',
   }
 });
 
 export default styles;
+
