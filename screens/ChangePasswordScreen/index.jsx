@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, TouchableOpacity, Alert, Image } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+  Image,
+} from "react-native";
 import Logo from "../../assets/logo.png";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -62,32 +69,34 @@ const ChangePasswordScreen = ({ navigation }) => {
       <View style={styles.logoContainer}>
         <Image source={Logo} height={106} width={106} />
       </View>
-      <Text style={styles.label}>Código</Text>
-      <TextInput
-        style={styles.input}
-        value={code}
-        onChangeText={setCode}
-        placeholder="Ingresa el código"
-      />
-      <Text style={styles.label}>Nueva Contraseña</Text>
-      <TextInput
-        style={styles.input}
-        value={newPassword}
-        onChangeText={setNewPassword}
-        secureTextEntry
-        placeholder="Ingresa la nueva contraseña"
-      />
-      <Text style={styles.label}>Confirmar Nueva Contraseña</Text>
-      <TextInput
-        style={styles.input}
-        value={confirmPassword}
-        onChangeText={setConfirmPassword}
-        secureTextEntry
-        placeholder="Confirma la nueva contraseña"
-      />
-      <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-        <Text style={styles.buttonText}>Cambiar Contraseña</Text>
-      </TouchableOpacity>
+      <View  style={styles.formContainer}>
+        <Text style={styles.label}>Código</Text>
+        <TextInput
+          style={styles.input}
+          value={code}
+          onChangeText={setCode}
+          placeholder="Ingresa el código"
+        />
+        <Text style={styles.label}>Nueva Contraseña</Text>
+        <TextInput
+          style={styles.input}
+          value={newPassword}
+          onChangeText={setNewPassword}
+          secureTextEntry
+          placeholder="Ingresa la nueva contraseña"
+        />
+        <Text style={styles.label}>Confirmar Nueva Contraseña</Text>
+        <TextInput
+          style={styles.input}
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+          secureTextEntry
+          placeholder="Confirma la nueva contraseña"
+        />
+        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+          <Text style={styles.buttonText}>Cambiar Contraseña</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
