@@ -8,7 +8,7 @@ import ResetPasswordScreen from "./screens/ResetPasswordScreen";
 import MessageSentScreen from "./screens/MessageSentScreen/indes";
 import ChangePasswordScreen from "./screens/ChangePasswordScreen";
 import RecoveryPasswordScreen from "./screens/RecoveryPasswordScreen";
-import SuccessfulPaswordChangeScreen from "./screens/SuccessfulPaswordChangeScreen";
+import SuccessfulPasswordChangeScreen from "./screens/SuccessfulPasswordChangeScreen";
 
 
 
@@ -62,8 +62,8 @@ export default function App() {
           }}
         />
         <Stack.Screen 
-          name="SuccessfulPaswordChange" 
-          component={SuccessfulPaswordChangeScreen} 
+          name="SuccessfulPasswordChange" 
+          component={SuccessfulPasswordChangeScreen} 
           options={{
             headerShown: false
           }}

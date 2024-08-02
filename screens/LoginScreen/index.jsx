@@ -28,7 +28,6 @@ const LoginScreen = ({ navigation }) => {
     const blockTime = await AsyncStorage.getItem('blockTime');
     if (blockTime && new Date().getTime() - parseInt(blockTime) < 30 * 60 * 1000) {
       setIsBlocked(true);
-      setError('Tu cuenta ha sido bloqueada temporalmente por 30 minutos. Una vez pasado este periodo podrás volver a iniciar sesión.');
     } else {
       await AsyncStorage.removeItem('blockTime');
       setIsBlocked(false);

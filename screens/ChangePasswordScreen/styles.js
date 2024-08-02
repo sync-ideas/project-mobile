@@ -10,10 +10,6 @@ const styles = StyleSheet.create({
   logoContainer: {
       marginBottom: 20,
   },
-  logoText: {
-      fontSize: 24,
-      fontWeight: 'bold',
-  },
   formContainer: {
     alignItems: 'left',
     width: '100%',
@@ -32,16 +28,6 @@ const styles = StyleSheet.create({
       paddingVertical: 15,
       paddingHorizontal: 10
   },
-  rememberMeContainer: {
-      flexDirection: 'row',
-      width: '80%',
-      justifyContent: 'flex-start',
-      alignItems: 'center',
-      marginVertical: 10,
-  },
-  rememberMeText: {
-      marginLeft: 10,
-  },
   button: {
       backgroundColor: '#63318a',
       paddingVertical: 12,
@@ -54,10 +40,6 @@ const styles = StyleSheet.create({
   buttonText: {
       color: '#fff',
       fontSize: 16,
-  },
-  forgotPasswordText: {
-      color: '#766882',
-      marginTop: 20,
   },
   errorText: {
     color: '#DE1111',

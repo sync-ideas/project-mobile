@@ -6,7 +6,7 @@ import {
 } from "react-native";
 import styles from "./styles";
 
-const SuccessfulChangePasswordScreen = ({ navigation }) => {
+const SuccessfulPasswordChangeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text>Haz cambiado exitosamente tu contraseña, ahora puedes volver a iniciar sesión.</Text>
@@ -17,6 +17,6 @@ const SuccessfulChangePasswordScreen = ({ navigation }) => {
   );
 };
 
-export default SuccessfulChangePasswordScreen;
+export default SuccessfulPasswordChangeScreen;
 
 
