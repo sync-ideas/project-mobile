@@ -21,15 +21,14 @@ const LoginScreen = ({ navigation }) => {
   const [areDisabled, setAreDisabled] = useState(false);
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
-  const [loginAttempts, setLoginAttempts] = useState(0);
   const [isBlocked, setIsBlocked] = useState(false);
 
   const checkBlockStatus = async () => {
-    const blockTime = await AsyncStorage.getItem('blockTime');
-    if (blockTime && new Date().getTime() - parseInt(blockTime) < 30 * 60 * 1000) {
+    const blockInfo = await AsyncStorage.getItem('blockInfo');
+    const blockTime = blockInfo ? JSON.parse(blockInfo)[email] : null;
+    if (blockTime && new Date().getTime() - blockTime < 30 * 60 * 1000) {
       setIsBlocked(true);
     } else {
-      await AsyncStorage.removeItem('blockTime');
       setIsBlocked(false);
     }
   };
@@ -39,7 +38,6 @@ const LoginScreen = ({ navigation }) => {
       const savedEmail = await AsyncStorage.getItem('email');
       const savedPassword = await AsyncStorage.getItem('password');
       const savedRememberMe = await AsyncStorage.getItem('rememberMe');
-      const savedAttempts = await AsyncStorage.getItem('loginAttempts');
       
       if (savedEmail && savedPassword && savedRememberMe === 'true') {
         setEmail(savedEmail);
@@ -47,7 +45,7 @@ const LoginScreen = ({ navigation }) => {
         setRememberMe(true);
       }
 
-      setLoginAttempts(parseInt(savedAttempts) || 0);
+      checkBlockStatus();
     } catch (error) {
       console.error("Falló al cargar las credenciales", error);
     }
@@ -75,6 +73,7 @@ const LoginScreen = ({ navigation }) => {
 
   const handleLogin = async () => {
     if (isBlocked) {
+      console.info('isBlocked - handleLogin: ', isBlocked)
       setPasswordError('Tu cuenta sigue bloqueada. Espera a que el tiempo de bloqueo expire.');
       return;
     }
@@ -95,38 +94,39 @@ const LoginScreen = ({ navigation }) => {
       setAreDisabled(true);
       const response = await axios.post(
         "https://attendance-control.vercel.app/api/users/login",
-        {
-          email: email,
-          password: password,
-        }
+        { email, password }
       );
-
-      console.info('response - handleLogin: ', response);
 
       if(response.status === 200) {
         if (rememberMe) {
+          console.info('rememberMe - if: ', rememberMe)
           saveCredentials(email, password);
         } else {
+          console.info('rememberMe - else: ', rememberMe)
           clearCredentials();
         }
         navigation.navigate('Home');
       }
     } catch (error) {
       console.info("Error Login: ", error);
-      const attempts = loginAttempts + 1;
-      await AsyncStorage.setItem('loginAttempts', attempts.toString());
+
+      const loginAttempts = JSON.parse(await AsyncStorage.getItem('loginAttempts')) || {};
+      const attempts = (loginAttempts[email] || 0) + 1;
+      loginAttempts[email] = attempts;
+
+      await AsyncStorage.setItem('loginAttempts', JSON.stringify(loginAttempts));
+
       if (attempts >= 3) {
         setPasswordError('Tu cuenta ha sido bloqueada temporalmente por 30 minutos. Una vez pasado este periodo podrás volver a iniciar sesión.');
-        const blockTime = new Date().getTime();
-        await AsyncStorage.setItem('blockTime', blockTime.toString());
+        const blockInfo = JSON.parse(await AsyncStorage.getItem('blockInfo')) || {};
+        blockInfo[email] = new Date().getTime();
+        await AsyncStorage.setItem('blockInfo', JSON.stringify(blockInfo));
         setIsBlocked(true);
       } else if (attempts === 2) {
         setPasswordError('Contraseña incorrecta. Te queda 1 intento. Si fallas otra vez tu cuenta será bloqueada temporalmente por 30 minutos.');
       } else {
         setPasswordError(`Contraseña incorrecta. Te quedan ${3 - attempts} intentos`);
       }
-
-      setLoginAttempts(attempts);
     } finally {
       setAreDisabled(false);
     }
@@ -156,7 +156,7 @@ const LoginScreen = ({ navigation }) => {
           placeholderTextColor="#63318a"
           keyboardType="email-address"
           autoCapitalize="none"
-          readOnly={areDisabled}
+          editable={!areDisabled}
         />
         {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
         <Text style={styles.label}>Contraseña</Text>
@@ -167,7 +167,7 @@ const LoginScreen = ({ navigation }) => {
           placeholder="Ingresa tu contraseña"
           placeholderTextColor="#63318a"
           secureTextEntry={true}
-          readOnly={areDisabled}
+          editable={!areDisabled}
         />
         {passwordError ? <Text style={styles.errorText}>{passwordError}</Text> : null}
       </View>
