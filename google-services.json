@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "242869192190",
+    "project_id": "asistencias-e9b11",
+    "storage_bucket": "asistencias-e9b11.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:242869192190:android:6fe244b0ccb7c038a3ecaf",
+        "android_client_info": {
+          "package_name": "com.company.asistences"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlW4HA_Tnvi7PVbaAl3kR8FnonNMYzQjY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

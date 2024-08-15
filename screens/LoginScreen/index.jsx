@@ -8,9 +8,10 @@ import {
 } from "react-native";
 import Checkbox from 'expo-checkbox';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from "axios";
 import { validateEmail } from "../../helpers/validateEmail";
 import { validatePassword } from "../../helpers/validatePassword";
+import { FIREBASE_AUTH } from "../../FirebaseConfig";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import Logo from '../../assets/logo.png'
 import styles from "./styles";
 
@@ -22,6 +23,7 @@ const LoginScreen = ({ navigation }) => {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [isBlocked, setIsBlocked] = useState(false);
+  const auth = FIREBASE_AUTH;
 
   const checkBlockStatus = async () => {
     const blockInfo = await AsyncStorage.getItem('blockInfo');
@@ -73,14 +75,14 @@ const LoginScreen = ({ navigation }) => {
 
   const handleLogin = async () => {
     if (isBlocked) {
-      console.info('isBlocked - handleLogin: ', isBlocked)
       setPasswordError('Tu cuenta sigue bloqueada. Espera a que el tiempo de bloqueo expire.');
       return;
     }
+
     setEmailError('');
     setPasswordError('');
+    
     if (!validateEmail(email)) {
-      console.info('Email error!!!!!!!!!!!!!!!!');
       setEmailError('Ingresa un correo electrónico válido.');
       return;
     }
@@ -92,24 +94,16 @@ const LoginScreen = ({ navigation }) => {
 
     try {
       setAreDisabled(true);
-      const response = await axios.post(
-        "https://attendance-control.vercel.app/api/users/login",
-        { email, password }
-      );
+      await signInWithEmailAndPassword(auth, email, password);
 
-      if(response.status === 200) {
-        if (rememberMe) {
-          console.info('rememberMe - if: ', rememberMe)
-          saveCredentials(email, password);
-        } else {
-          console.info('rememberMe - else: ', rememberMe)
-          clearCredentials();
-        }
-        navigation.navigate('Home');
+      if (rememberMe) {
+        saveCredentials(email, password);
+      } else {
+        clearCredentials();
       }
-    } catch (error) {
-      console.info("Error Login: ", error);
 
+      navigation.navigate('Home');
+    } catch (error) {
       const loginAttempts = JSON.parse(await AsyncStorage.getItem('loginAttempts')) || {};
       const attempts = (loginAttempts[email] || 0) + 1;
       loginAttempts[email] = attempts;
@@ -127,10 +121,88 @@ const LoginScreen = ({ navigation }) => {
       } else {
         setPasswordError(`Contraseña incorrecta. Te quedan ${3 - attempts} intentos`);
       }
+
+      if (error.code === 'auth/user-not-found') {
+        setEmailError('Usuario no encontrado.');
+      } else if (error.code === 'auth/wrong-password') {
+        setPasswordError('Contraseña incorrecta.');
+      } else {
+        setPasswordError('Error al iniciar sesión. Por favor, inténtalo de nuevo.');
+      }
     } finally {
       setAreDisabled(false);
     }
   };
+
+  /*
+  const handleLogin = async () => {
+    if (isBlocked) {
+      setPasswordError('Tu cuenta sigue bloqueada. Espera a que el tiempo de bloqueo expire.');
+      return;
+    }
+  
+    setEmailError('');
+    setPasswordError('');
+  
+    if (!validateEmail(email)) {
+      setEmailError('Ingresa un correo electrónico válido.');
+      return;
+    }
+  
+    if (!validatePassword(password)) {
+      setPasswordError("La contraseña debe incluir, al menos, una letra mayúscula, una letra minúscula, un número y un carácter especial.");
+      return;
+    }
+  
+    try {
+      setAreDisabled(true);
+      
+      // Intento de inicio de sesión con Firebase Authentication
+      await signInWithEmailAndPassword(FIREBASE_AUTH, email, password);
+  
+      // Si el inicio de sesión es exitoso y la opción "Recordarme" está activada
+      if (rememberMe) {
+        saveCredentials(email, password);
+      } else {
+        clearCredentials();
+      }
+  
+      navigation.navigate('Home');
+    } catch (error) {
+      // Recuperar los intentos fallidos de inicio de sesión almacenados en AsyncStorage
+      const loginAttempts = JSON.parse(await AsyncStorage.getItem('loginAttempts')) || {};
+      const attempts = (loginAttempts[email] || 0) + 1;
+      loginAttempts[email] = attempts;
+  
+      // Guardar el nuevo número de intentos fallidos
+      await AsyncStorage.setItem('loginAttempts', JSON.stringify(loginAttempts));
+  
+      // Bloqueo de cuenta después de 3 intentos fallidos
+      if (attempts >= 3) {
+        setPasswordError('Tu cuenta ha sido bloqueada temporalmente por 30 minutos. Una vez pasado este periodo podrás volver a iniciar sesión.');
+        const blockInfo = JSON.parse(await AsyncStorage.getItem('blockInfo')) || {};
+        blockInfo[email] = new Date().getTime();
+        await AsyncStorage.setItem('blockInfo', JSON.stringify(blockInfo));
+        setIsBlocked(true);
+      } else if (attempts === 2) {
+        setPasswordError('Contraseña incorrecta. Te queda 1 intento. Si fallas otra vez tu cuenta será bloqueada temporalmente por 30 minutos.');
+      } else {
+        setPasswordError(`Contraseña incorrecta. Te quedan ${3 - attempts} intentos`);
+      }
+  
+      // Manejo de errores específicos de Firebase
+      if (error.code === 'auth/user-not-found') {
+        setEmailError('Usuario no encontrado.');
+      } else if (error.code === 'auth/wrong-password') {
+        setPasswordError('Contraseña incorrecta.');
+      } else {
+        setPasswordError('Error al iniciar sesión. Por favor, inténtalo de nuevo.');
+      }
+    } finally {
+      setAreDisabled(false);
+    }
+  };
+  */
 
   useEffect(() => {
     loadCredentials();
