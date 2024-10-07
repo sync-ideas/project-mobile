@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Button } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const StoreEmail = () => {
+const StoreEmail: React.FC = () => {
   useEffect(() => {
     const storeEmail = async () => {
       try {

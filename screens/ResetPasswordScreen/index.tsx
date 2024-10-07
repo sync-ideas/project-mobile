@@ -5,16 +5,39 @@ import {
   TextInput, 
   TouchableOpacity, 
   Alert,
-  Image,
+  Image
 } from "react-native";
 import Logo from '../../assets/logo.png';
 import { validateEmail } from "../../helpers/validateEmail";
 import axios from "axios";
 import styles from "./styles";
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RouteProp } from '@react-navigation/native';
 
-const ResetPasswordScreen = ({ navigation }) => {
-  const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState('');
+export type TypeRootStackParamList = {
+  Login: undefined;
+  MessageSent: undefined;
+  ResetPassword: undefined; 
+};
+
+export type TypeResetPasswordScreenNavigationProp = NativeStackNavigationProp<
+  TypeRootStackParamList,
+  'ResetPassword'
+>;
+
+export type TypeResetPasswordScreenRouteProp = RouteProp<
+  TypeRootStackParamList,
+  'ResetPassword'
+>;
+
+export type ResetPasswordScreenProps = {
+  navigation: TypeResetPasswordScreenNavigationProp;
+  route: TypeResetPasswordScreenRouteProp;
+}
+
+const ResetPasswordScreen: React.FC<ResetPasswordScreenProps> = ({ navigation }) => {
+  const [email, setEmail] = useState<string>("");
+  const [emailError, setEmailError] = useState<string>('');
 
   const handleSendResetEmail = async () => {
     setEmailError('');
@@ -33,7 +56,6 @@ const ResetPasswordScreen = ({ navigation }) => {
       } 
     } catch (error) {
       setEmailError('Este correo electrónico no está registrado.');
-      return;
     }
   };
 

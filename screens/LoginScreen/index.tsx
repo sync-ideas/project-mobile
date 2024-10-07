@@ -9,27 +9,41 @@ import {
 import Checkbox from 'expo-checkbox';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from "axios";
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { validateEmail } from "../../helpers/validateEmail";
 import { validatePassword } from "../../helpers/validatePassword";
 import Logo from '../../assets/logo.png'
 import styles from "./styles";
 
-const LoginScreen = ({ navigation }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
-  const [areDisabled, setAreDisabled] = useState(false);
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [isBlocked, setIsBlocked] = useState(false);
+export type RootStackParamList = {
+  Login: undefined;
+  Home: undefined;
+  ResetPassword: undefined;
+};
+
+type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
+
+const LoginScreen: React.FC<Props> = ({ navigation }) => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [rememberMe, setRememberMe] = useState<boolean>(false);
+  const [areDisabled, setAreDisabled] = useState<boolean>(false);
+  const [emailError, setEmailError] = useState<string>('');
+  const [passwordError, setPasswordError] = useState<string>('');
+  const [isBlocked, setIsBlocked] = useState<boolean>(false);
 
   const checkBlockStatus = async () => {
-    const blockInfo = await AsyncStorage.getItem('blockInfo');
-    const blockTime = blockInfo ? JSON.parse(blockInfo)[email] : null;
-    if (blockTime && new Date().getTime() - blockTime < 30 * 60 * 1000) {
-      setIsBlocked(true);
-    } else {
-      setIsBlocked(false);
+    try {
+      const blockInfo = await AsyncStorage.getItem('blockInfo');
+      const parsedBlockInfo = blockInfo ? JSON.parse(blockInfo) : {};
+      const blockTime = parsedBlockInfo[email];
+      if (blockTime && new Date().getTime() - blockTime < 30 * 60 * 1000) {
+        setIsBlocked(true);
+      } else {
+        setIsBlocked(false);
+      }
+    } catch (error) {
+      console.error("Error checking block status:", error);
     }
   };
 
@@ -47,17 +61,17 @@ const LoginScreen = ({ navigation }) => {
 
       checkBlockStatus();
     } catch (error) {
-      console.error("Falló al cargar las credenciales", error);
+      console.error("Error loading credentials:", error);
     }
   };
 
-  const saveCredentials = async (email, password) => {
+  const saveCredentials = async (email: string, password: string) => {
     try {
       await AsyncStorage.setItem('email', email);
       await AsyncStorage.setItem('password', password);
       await AsyncStorage.setItem('rememberMe', 'true');
     } catch (error) {
-      console.error("Falló al guardar las credenciales", error);
+      console.error("Error saving credentials:", error);
     }
   };
 
@@ -67,20 +81,20 @@ const LoginScreen = ({ navigation }) => {
       await AsyncStorage.removeItem('password');
       await AsyncStorage.removeItem('rememberMe');
     } catch (error) {
-      console.error("Falló al limpiar las credenciales", error);
+      console.error("Error clearing credentials:", error);
     }
   };
 
   const handleLogin = async () => {
     if (isBlocked) {
-      console.info('isBlocked - handleLogin: ', isBlocked)
       setPasswordError('Tu cuenta sigue bloqueada. Espera a que el tiempo de bloqueo expire.');
       return;
     }
+
     setEmailError('');
     setPasswordError('');
+
     if (!validateEmail(email)) {
-      console.info('Email error!!!!!!!!!!!!!!!!');
       setEmailError('Ingresa un correo electrónico válido.');
       return;
     }
@@ -97,20 +111,16 @@ const LoginScreen = ({ navigation }) => {
         { email, password }
       );
 
-      if(response.status === 200) {
+      if (response.status === 200) {
         if (rememberMe) {
-          console.info('rememberMe - if: ', rememberMe)
           saveCredentials(email, password);
         } else {
-          console.info('rememberMe - else: ', rememberMe)
           clearCredentials();
         }
         navigation.navigate('Home');
       }
     } catch (error) {
-      console.info("Error Login: ", error);
-
-      const loginAttempts = JSON.parse(await AsyncStorage.getItem('loginAttempts')) || {};
+      const loginAttempts = JSON.parse(await AsyncStorage.getItem('loginAttempts') || '{}');
       const attempts = (loginAttempts[email] || 0) + 1;
       loginAttempts[email] = attempts;
 
@@ -118,7 +128,7 @@ const LoginScreen = ({ navigation }) => {
 
       if (attempts >= 3) {
         setPasswordError('Tu cuenta ha sido bloqueada temporalmente por 30 minutos. Una vez pasado este periodo podrás volver a iniciar sesión.');
-        const blockInfo = JSON.parse(await AsyncStorage.getItem('blockInfo')) || {};
+        const blockInfo = JSON.parse(await AsyncStorage.getItem('blockInfo') || '{}');
         blockInfo[email] = new Date().getTime();
         await AsyncStorage.setItem('blockInfo', JSON.stringify(blockInfo));
         setIsBlocked(true);
