@@ -1,9 +1,14 @@
 import React from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Logo from "../../assets/logo.png";
 import styles from "./styles";
 
-const MessageSentScreen = ({ navigation }) => {
+type MessageSentScreenProps = {
+  navigation: NativeStackNavigationProp<any, any>;
+};
+
+const MessageSentScreen: React.FC<MessageSentScreenProps> = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>

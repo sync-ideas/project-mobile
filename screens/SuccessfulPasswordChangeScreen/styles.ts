@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     marginBottom: 60,
   },
   formContainer: {
-    alignItems: "left",
+    alignItems: "flex-start",
     width: "100%",
     marginLeft: 82,
   },

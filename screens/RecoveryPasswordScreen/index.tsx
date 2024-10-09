@@ -1,4 +1,3 @@
-// RecuperarContraseñaScreen.jsx
 import React, { useState } from "react";
 import { 
   View, 
@@ -10,8 +9,13 @@ import {
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from "./styles";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-const RecoveryPasswordScreen = ({ navigation }) => {
+type RecoveryPasswordScreenProps = {
+  navigation: NativeStackNavigationProp<any, any>;
+};
+
+const RecoveryPasswordScreen: React.FC<RecoveryPasswordScreenProps> = ({ navigation }) => {
   const [email, setEmail] = useState('');
 
   const handleRecuperarAcceso = async () => {

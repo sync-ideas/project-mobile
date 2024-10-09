@@ -7,17 +7,21 @@ import {
   Alert,
   Image,
 } from "react-native";
-import StoreEmail from "../../components/StoreEmail";
 import Logo from "../../assets/logo.png";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "./styles";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-const ChangePasswordScreen = ({ navigation }) => {
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [code, setCode] = useState("");
-  const [email, setEmail] = useState("");
+type ChangePasswordScreenProps = {
+  navigation: NativeStackNavigationProp<any, any>;
+};
+
+const ChangePasswordScreen: React.FC<ChangePasswordScreenProps> = ({ navigation }) => {
+  const [newPassword, setNewPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [code, setCode] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
 
   async function loadEmail() {
     try {
@@ -117,7 +121,7 @@ const ChangePasswordScreen = ({ navigation }) => {
           <Text style={styles.buttonText}>Cambiar Contraseña</Text>
         </TouchableOpacity>
       </View>
-      { /*
+      {/* 
       <View>
         <StoreEmail />
       </View>
