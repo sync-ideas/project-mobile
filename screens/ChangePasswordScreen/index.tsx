@@ -13,11 +13,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "./styles";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-type ChangePasswordScreenProps = {
+export type TypeChangePasswordScreenProps = {
   navigation: NativeStackNavigationProp<any, any>;
 };
 
-const ChangePasswordScreen: React.FC<ChangePasswordScreenProps> = ({ navigation }) => {
+export default function ChangePasswordScreen({ navigation }: TypeChangePasswordScreenProps) {
   const [newPassword, setNewPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [code, setCode] = useState<string>("");
@@ -130,4 +130,3 @@ const ChangePasswordScreen: React.FC<ChangePasswordScreenProps> = ({ navigation 
   );
 };
 
-export default ChangePasswordScreen;

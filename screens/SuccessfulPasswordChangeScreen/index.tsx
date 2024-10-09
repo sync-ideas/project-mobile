@@ -9,11 +9,11 @@ import Logo from "../../assets/logo.png";
 import styles from "./styles";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-type SuccessfulPasswordChangeScreenProps = {
+export type TypeSuccessfulPasswordChangeScreenProps = {
   navigation: NativeStackNavigationProp<any, any>;
 };
 
-const SuccessfulPasswordChangeScreen: React.FC<SuccessfulPasswordChangeScreenProps> = ({ navigation }) => {
+export default function SuccessfulPasswordChangeScreen({ navigation }: TypeSuccessfulPasswordChangeScreenProps) {
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
@@ -31,4 +31,3 @@ const SuccessfulPasswordChangeScreen: React.FC<SuccessfulPasswordChangeScreenPro
   );
 };
 
-export default SuccessfulPasswordChangeScreen;

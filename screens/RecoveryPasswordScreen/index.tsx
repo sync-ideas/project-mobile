@@ -11,11 +11,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from "./styles";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-type RecoveryPasswordScreenProps = {
+export type TypeRecoveryPasswordScreenProps = {
   navigation: NativeStackNavigationProp<any, any>;
 };
 
-const RecoveryPasswordScreen: React.FC<RecoveryPasswordScreenProps> = ({ navigation }) => {
+export default function RecoveryPasswordScreen({ navigation }: TypeRecoveryPasswordScreenProps) {
   const [email, setEmail] = useState('');
 
   const handleRecuperarAcceso = async () => {
@@ -54,4 +54,3 @@ const RecoveryPasswordScreen: React.FC<RecoveryPasswordScreenProps> = ({ navigat
   );
 };
 
-export default RecoveryPasswordScreen;

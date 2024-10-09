@@ -14,19 +14,19 @@ import styles from "./styles";
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RouteProp } from '@react-navigation/native';
 
-export type TypeRootStackParamList = {
+export type TypeResetPaswordParamList = {
   Login: undefined;
   MessageSent: undefined;
   ResetPassword: undefined; 
 };
 
 export type TypeResetPasswordScreenNavigationProp = NativeStackNavigationProp<
-  TypeRootStackParamList,
+  TypeResetPaswordParamList,
   'ResetPassword'
 >;
 
 export type TypeResetPasswordScreenRouteProp = RouteProp<
-  TypeRootStackParamList,
+  TypeResetPaswordParamList,
   'ResetPassword'
 >;
 
@@ -35,7 +35,7 @@ export type ResetPasswordScreenProps = {
   route: TypeResetPasswordScreenRouteProp;
 }
 
-const ResetPasswordScreen: React.FC<ResetPasswordScreenProps> = ({ navigation }) => {
+export default function ResetPasswordScreen({ navigation }: ResetPasswordScreenProps) {
   const [email, setEmail] = useState<string>("");
   const [emailError, setEmailError] = useState<string>('');
 
@@ -91,4 +91,3 @@ const ResetPasswordScreen: React.FC<ResetPasswordScreenProps> = ({ navigation })
   );
 };
 
-export default ResetPasswordScreen;

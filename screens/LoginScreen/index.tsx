@@ -15,15 +15,15 @@ import { validatePassword } from "../../helpers/validatePassword";
 import Logo from '../../assets/logo.png'
 import styles from "./styles";
 
-export type RootStackParamList = {
+export type TypeLoginParamslist = {
   Login: undefined;
   Home: undefined;
   ResetPassword: undefined;
 };
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
+export type TypeLoginScreenProps = NativeStackScreenProps<TypeLoginParamslist, 'Login'>;
 
-const LoginScreen: React.FC<Props> = ({ navigation }) => {
+export default function LoginScreen({ navigation }: TypeLoginScreenProps) {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [rememberMe, setRememberMe] = useState<boolean>(false);
@@ -207,4 +207,3 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
   );
 };
 
-export default LoginScreen;
