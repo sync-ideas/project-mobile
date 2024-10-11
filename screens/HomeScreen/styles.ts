@@ -26,9 +26,6 @@ const styles = StyleSheet.create({
     color: '#362B3E', 
     paddingVertical: 10,
   },
-  content: {
-    // paddingVertical: 20,
-  },
   classContainer: {
     backgroundColor: '#FCFCFC',
     padding: 16,
@@ -61,24 +58,37 @@ const styles = StyleSheet.create({
     color: '#EB5B26', 
     marginBottom: 8,
   },
-  modifyAttendance: {
-    backgroundColor: '#EDE9FE',
-    padding: 16,
-    borderRadius: 8,
-    marginTop: 20,
+  pickerContainer: {
+    marginBottom: 15,
+    borderWidth: 1,
+    borderColor: '#8347B2',
+    borderRadius: 5,
+    backgroundColor: '#FFFFFF',
   },
   button: {
-    backgroundColor: '#6D28D9',
-    paddingVertical: 12,
+    backgroundColor: '#63318A',
+    paddingVertical: 16,
     paddingHorizontal: 20,
-    borderRadius: 8,
-    marginTop: 16,
+    borderRadius: 5,
     alignItems: 'center',
+    marginBottom: 100,
   },
   buttonText: {
-    color: '#FFF',
+    color: '#FFFFFF',
     fontWeight: 'bold',
-    fontSize: 16,
+  },
+  footer: {
+    backgroundColor: '#63318A',
+    alignItems: 'center',
+    height: 98,
+  },
+  scanButton: {
+    backgroundColor: '#FFF',
+    borderRadius: 50,
+    padding: 15,
+    borderWidth: 4,
+    borderColor: '#63318A',
+    bottom: 24,
   },
 });
 

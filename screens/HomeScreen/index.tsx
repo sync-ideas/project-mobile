@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, Image } from 'react-native';
-import { Icon } from '../../src/components'
+import { View, TouchableOpacity, ScrollView, Image } from 'react-native';
+import { Icon, Text, Picker } from '../../src/components'
 import LogoViolet from '../../assets/logo-violet.png'
 import styles from './styles';
 
@@ -10,9 +10,41 @@ export type TypeClassData = {
   time: string;
 }
 
+export const courseOptions = [
+	{
+		label: '2°A',
+		value: '2°A',
+	},
+	{
+		label: '3°A',
+		value: '3°A',
+	},
+	{
+		label: '2°A',
+		value: '2°A',
+	},
+]
+
+export const subjectOptions = [
+	{
+		label: 'Matemática',
+		value: 'Matemática',
+	},
+	{
+		label: 'Lengua',
+		value: 'Lengua',
+	},
+	{
+		label: 'Inglés',
+		value: 'Inglés',
+	},
+]
+
 export default function HomeScreen() {
   const [currentClass, setCurrentClass] = useState<TypeClassData | null>(null);
   const [nextClass, setNextClass] = useState<TypeClassData | null>(null);
+	const [course, setCourse] = useState<string>('')
+	const [subject, setSubject] = useState<string>('')
 
   // Simulamos la función para obtener los horarios del profesor
   useEffect(() => {
@@ -40,7 +72,6 @@ export default function HomeScreen() {
   return (
     <>
 			<View style={styles.header}>
-				{/* Aquí puedes agregar los iconos del menú */}
 				<Image
 					source={LogoViolet}
 				/>
@@ -59,7 +90,7 @@ export default function HomeScreen() {
 				</View>
 			</View>
 			<View style={styles.container}>
-				<ScrollView contentContainerStyle={styles.content}>
+				<ScrollView>
 					<Text style={styles.title}>Registro de asistencias</Text>
 					{/* Clase actual */}
 					<View style={styles.classContainer}>
@@ -94,16 +125,36 @@ export default function HomeScreen() {
 							</>
 						)}
 					</View>
-
-					{/* Modificar asistencia */}
-					<View style={styles.modifyAttendance}>
-						<Text>Modificar asistencia</Text>
-						<TouchableOpacity style={styles.button}>
-							<Text>Ver asistencia</Text>
-						</TouchableOpacity>
+					<Text style={styles.title}>Modificar asistencia</Text>
+					<View style={styles.pickerContainer}>
+						<Picker
+							value={course}
+							options={courseOptions}
+							onChange={setCourse}
+						/>
 					</View>
+					<View style={styles.pickerContainer}>
+						<Picker
+							value={subject}
+							options={subjectOptions}
+							onChange={setSubject}
+						/>
+					</View>
+					<TouchableOpacity style={styles.button}>
+						<Text style={styles.buttonText}>Ver asistencia</Text>
+					</TouchableOpacity>
 				</ScrollView>
 			</View>
+			<View style={styles.footer}>
+        <TouchableOpacity style={styles.scanButton}>
+					<Icon 		  
+						family="Ionicons" 
+						name="scan-sharp" 
+						size={40} 
+						color="#EB5B26" 
+					/>
+        </TouchableOpacity>
+      </View>
 		</>
   );
 }
